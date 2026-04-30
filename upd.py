@@ -191,17 +191,45 @@ def main(page: ft.Page):
 
     def show_guests(e=None):
         content_area.controls.clear()
-        res_list = ft.Column(scroll=ft.ScrollMode.ALWAYS, height=550)
-        def update_ui():
+        search_g = ft.TextField(label="Поиск по ФИО или паспорту (БМ)", width=400) # Поле поиска
+        res_list = ft.Column(scroll=ft.ScrollMode.ALWAYS, height=500)
+
+        def update_ui(filter_str=""):
             res_list.controls.clear()
             for i in range(hash_engine.size):
                 curr = hash_engine.table[i]
                 while curr:
-                    color = "green" if curr.checkout_date == "Проживает" else "grey"
-                    res_list.controls.append(ft.Container(content=ft.Row([ft.Icon(ft.Icons.PERSON, color=color), ft.Text(f"{curr.fio} ({curr.passport})", expand=True), ft.Text(curr.checkout_date, italic=True, color=color)]), padding=5, border=ft.border.all(1, "black12"), border_radius=10))
+                    # Проверяем, подходит ли гость под фильтр (по ФИО или паспорту)
+                    match_fio = not filter_str or boyer_moore_search(curr.fio.lower(), filter_str.lower())
+                    match_pass = not filter_str or boyer_moore_search(curr.passport.lower(), filter_str.lower())
+                    
+                    if match_fio or match_pass:
+                        color = "green" if curr.checkout_date == "Проживает" else "grey"
+                        res_list.controls.append(
+                            ft.Container(
+                                content=ft.Row([
+                                    ft.Icon(ft.Icons.PERSON, color=color), 
+                                    ft.Text(f"{curr.fio} ({curr.passport})", expand=True), 
+                                    ft.Text(curr.checkout_date, italic=True, color=color)
+                                ]), 
+                                padding=5, 
+                                border=ft.border.all(1, "black12"), 
+                                border_radius=10
+                            )
+                        )
                     curr = curr.next
             page.update()
-        content_area.controls.append(res_list); update_ui()
+
+        # Добавляем кнопку и поле поиска на экран
+        content_area.controls.extend([
+            ft.Row([
+                search_g, 
+                ft.FilledButton("Найти", on_click=lambda _: update_ui(search_g.value))
+            ]),
+            ft.Divider(),
+            res_list
+        ])
+        update_ui()
 
     def show_journal(e=None):
         content_area.controls.clear()
