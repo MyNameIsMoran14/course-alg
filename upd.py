@@ -266,3 +266,5 @@ def main(page: ft.Page):
     show_rooms()
 
 ft.run(main)
+
+# нужно при удалении обордования удаять строку вообще из бд
