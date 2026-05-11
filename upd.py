@@ -74,7 +74,10 @@ class HashNode:
 class HashTable:
     def __init__(self, size=10):
         self.size, self.table = size, [None] * size
-    def _hash(self, key): return sum(ord(c) for c in str(key)) % self.size
+    def _hash(self, key):
+        idx = sum(ord(c) for c in str(key)) % self.size
+        print(f"DEBUG: Ключ {key} получил индекс {idx}") # Удали после защиты
+        return idx
     def insert(self, passport, fio, date="Проживает"):
         idx = self._hash(passport)
         if not self.table[idx]: self.table[idx] = HashNode(passport, fio, date)
