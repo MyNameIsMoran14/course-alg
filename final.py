@@ -242,7 +242,7 @@ def main(page: ft.Page):
 
         def add_ev(e):
             if not re.match(r"^[ЛПОМ]\d{3}$", rid.value.upper()):
-                page.snack_bar = ft.SnackBar(ft.Text("Формат номера: Буква(Л,П,О,М) и 3 цифры!")); page.snack_bar.open = True
+                page.snack_bar = ft.SnackBar(ft.Text("Формат номера: Буква(Л,П,О,М) и 3 цифры")); page.snack_bar.open = True
                 page.update(); return
             try:
                 tree_root[0] = tree_engine.insert(tree_root[0], rid.value.upper(), rtype.value, int(rseats.value or 1), int(rcnt.value or 1), int(rtoilet.value), requip.value)
