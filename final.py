@@ -354,7 +354,7 @@ def main(page: ft.Page):
             #САМАЯ НУЖНАЯ ПРОВЕРКА НА МЕСТА В МОЕЙ ЖИЗНИ (места в номере)
             room_node = tree_engine.search(tree_root[0], target_room)
             if not room_node:
-                page.snack_bar = ft.SnackBar(ft.Text("Этого номера вообще нет в базе комнат!")); page.snack_bar.open = True; page.update(); return
+                page.snack_bar = ft.SnackBar(ft.Text("Этого номера вообще нет в базе комнат")); page.snack_bar.open = True; page.update(); return
             
             # Считаем сколько людей сейчас реально живут в этой комнате
             current_occupied = 0
