@@ -84,6 +84,8 @@ class HashTable:
     def __init__(self, size=10):
         self.size, self.table = size, [None] * size
     def _hash(self, key):
+        idx = sum(ord(c) for c in str(key)) % self.size
+        print(f"DEBUG: Ключ {key} получил индекс {idx}")
         return sum(ord(c) for c in str(key)) % self.size
     
     def insert(self, passport, fio, birth, address, goal, date="Проживает"):
