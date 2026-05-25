@@ -138,7 +138,7 @@ class SkipList:
 
 # ыыыы flet делает вылет-вылет
 def main(page: ft.Page):
-    page.title = "САОД Алгоритмы и структуры данных: Гостиница"
+    page.title = "Алгоритмы и структуры данных: Гостиница"
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window_width, page.window_height = 1000, 800
 
