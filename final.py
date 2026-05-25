@@ -197,7 +197,7 @@ def main(page: ft.Page):
 
     def show_rooms(e=None):
         content_area.controls.clear()
-        rid = ft.TextField(label="№ (Л/П/О/М + 3 цифры)", width=140)
+        rid = ft.TextField(label="№ (Л/П/О/М + 3 цифры)", width=140) #люкс/полу-люкс/одноместный/многоместный
         rtype = ft.TextField(label="Тип номера", width=100)
         rseats = ft.TextField(label="Мест", width=70)
         rcnt = ft.TextField(label="Комнат", width=70)
