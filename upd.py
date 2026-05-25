@@ -76,7 +76,7 @@ class HashTable:
         self.size, self.table = size, [None] * size
     def _hash(self, key):
         idx = sum(ord(c) for c in str(key)) % self.size
-        print(f"DEBUG: Ключ {key} получил индекс {idx}") # Удали после защиты
+        print(f"DEBUG: Ключ {key} получил индекс {idx}")
         return idx
     def insert(self, passport, fio, date="Проживает"):
         idx = self._hash(passport)
@@ -223,7 +223,7 @@ def main(page: ft.Page):
                     curr = curr.next
             page.update()
 
-        # Добавляем кнопку и поле поиска на экран
+        
         content_area.controls.extend([
             ft.Row([
                 search_g, 
@@ -271,3 +271,4 @@ def main(page: ft.Page):
 ft.run(main)
 
 # нужно при удалении обордования удаять строку вообще из бд
+#аплдейт забыла

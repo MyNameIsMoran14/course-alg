@@ -4,7 +4,7 @@ import random
 import re
 from datetime import datetime
 
-# --- АЛГОРИТМ БОУЕРА-МУРА ---
+# АЛГОРИТМ БОУЕРА-МУРА
 def boyer_moore_search(text, pattern):
     if not text or not pattern: return False
     n, m = len(text), len(pattern)
@@ -17,7 +17,7 @@ def boyer_moore_search(text, pattern):
         else: break
     return False
 
-# --- 1. АВЛ-ДЕРЕВО ---
+# АВЛ-ДЕРЕВО
 class AVLNode:
     def __init__(self, key, r_type, seats, rooms, toilet, equipment):
         self.key, self.room_type = key, r_type
@@ -72,7 +72,7 @@ class AVLTree:
         if key < root.key: return self.search(root.left, key)
         return self.search(root.right, key)
 
-# --- 2. ХЕШ-ТАБЛИЦА ---
+# ХЕШ-ТАБЛИЦА 
 class HashNode:
     def __init__(self, passport, fio, birth, address, goal, checkout_date="Проживает"):
         self.passport, self.fio = passport, fio
@@ -107,7 +107,7 @@ class HashTable:
             curr = curr.next
         return None
 
-# --- 3. СЛОЕНЫЙ СПИСОК ---
+# СЛОЕНЫЙ СПИСОК
 class SkipNode:
     def __init__(self, key, passport, level):
         self.key, self.passport = str(key), passport
@@ -134,7 +134,7 @@ class SkipList:
             new_node.forward[i] = update[i].forward[i]
             update[i].forward[i] = new_node
 
-# --- ПРИЛОЖЕНИЕ ---
+# ыыыы flet делает вылет-вылет
 def main(page: ft.Page):
     page.title = "САОД Алгоритмы и структуры данных: Гостиница"
     page.theme_mode = ft.ThemeMode.LIGHT
@@ -172,7 +172,7 @@ def main(page: ft.Page):
         e.control.icon = ft.Icons.LIGHT_MODE if page.theme_mode == ft.ThemeMode.DARK else ft.Icons.DARK_MODE
         page.update()
 
-    # Поиск жильцов комнаты для выполнения требований ТЗ при выводе номера
+    # Поиск жильцов комнаты 
     def get_room_guests(room_id):
         guests_info = []
         curr = skip_engine.header.forward[0]
@@ -206,8 +206,6 @@ def main(page: ft.Page):
 
         def update_ui(filter_str=""):
             res_list.controls.clear()
-            
-            # Если это точный поиск по номеру комнаты (Требование ТЗ п. 2.2.3.8)
             if filter_str and re.match(r"^[ЛПОМ]\d{3}$", filter_str.upper()):
                 node = tree_engine.search(tree_root[0], filter_str.upper())
                 if node:
@@ -226,7 +224,7 @@ def main(page: ft.Page):
                     res_list.controls.append(ft.Text("Номер не найден!", color="red"))
                 page.update(); return
 
-            # Стандартный вывод / поиск по оборудованию через БМ
+            # поиск по оборудованию через БМ
             nodes = []
             tree_engine.pre_order(tree_root[0], nodes)
             for n in nodes:
@@ -273,7 +271,7 @@ def main(page: ft.Page):
         def update_ui(filter_str=""):
             res_list.controls.clear()
             
-            # Точечный поиск по первичному ключу (Паспорт) - Требование ТЗ
+            # поиск по первичному ключу 
             if filter_str and re.match(r"^\d{4}-\d{6}$", filter_str):
                 g_node = hash_engine.search(filter_str)
                 if g_node:
@@ -292,7 +290,7 @@ def main(page: ft.Page):
                     res_list.controls.append(ft.Text("Постоялец с таким паспортом не найден.", color="red"))
                 page.update(); return
 
-            # Общий список / Поиск по ФИО через БМ
+            # ыыыы Общий список + Поиск по ФИО через БМ
             for i in range(hash_engine.size):
                 curr = hash_engine.table[i]
                 while curr:
@@ -351,7 +349,7 @@ def main(page: ft.Page):
             if not re.match(r"^\d{4}-\d{6}$", jpass.value):
                 page.snack_bar = ft.SnackBar(ft.Text("Неверный формат паспорта! (Надо: 1234-123456)")); page.snack_bar.open = True; page.update(); return
 
-            # --- ЖЕСТКАЯ ПРОВЕРКА НА СВОБОДНЫЕ МЕСТА ПО ТЗ (п. 2.2.3.12) ---
+            #САМАЯ НУЖНАЯ ПРОВЕРКА НА МЕСТА В МОЕЙ ЖИЗНИ (места в номере)
             room_node = tree_engine.search(tree_root[0], target_room)
             if not room_node:
                 page.snack_bar = ft.SnackBar(ft.Text("Этого номера вообще нет в базе комнат!")); page.snack_bar.open = True; page.update(); return
@@ -368,8 +366,7 @@ def main(page: ft.Page):
 
             if current_occupied >= room_node.seats:
                 page.snack_bar = ft.SnackBar(ft.Text(f"Заселение отклонено! В номере {target_room} мест всего: {room_node.seats}, и они все заняты!")); page.snack_bar.open = True; page.update(); return
-            # -------------------------------------------------------------
-
+            
             skip_engine.insert(target_room, jpass.value)
             cur.execute("INSERT INTO journal VALUES (?, ?)", (target_room, jpass.value))
             cur.execute("INSERT OR REPLACE INTO guests VALUES (?, ?, ?, ?, ?, ?)", 
