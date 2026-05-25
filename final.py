@@ -290,7 +290,7 @@ def main(page: ft.Page):
                     res_list.controls.append(ft.Text("Постоялец с таким паспортом не найден.", color="red"))
                 page.update(); return
 
-            # ыыыы Общий список + Поиск по ФИО через БМ
+            # ыыыы щбщий список + поиск по ФИО через БМ
             for i in range(hash_engine.size):
                 curr = hash_engine.table[i]
                 while curr:
